@@ -1,9 +1,12 @@
 package com.nikhilbytes.composeassignment.ui.screens
 
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -22,14 +25,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.navigation.NavHostController
 import com.nikhilbytes.composeassignment.R
 import com.nikhilbytes.composeassignment.ui.ShoeData
@@ -59,6 +65,7 @@ fun SharedTransitionScope.ShoeDetailScreen(
             .background(Color.White),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        val rotation = remember { Animatable(30f) }
 
         Column(
             modifier = Modifier
@@ -113,6 +120,13 @@ fun SharedTransitionScope.ShoeDetailScreen(
                 } else {
                     Pair(360.dp, 240.dp)
                 }
+
+
+//                val rotationBoundsTransform = remember {
+//                    BoundsTransform { initialBounds, targetBounds ->
+//
+//                    }
+//                }
 
                 Image(
                     painter = painterResource(

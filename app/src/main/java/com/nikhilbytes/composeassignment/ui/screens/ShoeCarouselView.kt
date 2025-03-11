@@ -14,10 +14,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
@@ -30,6 +34,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -59,12 +64,18 @@ fun SharedTransitionScope.ShoeCarouselListView(
 
     HorizontalPager(
         state = pagerState,
-        modifier = Modifier.padding(start = 8.dp),
-        contentPadding = PaddingValues(
-            start = 8.dp,
-            end = 60.dp
-        ),
-        pageSpacing = 0.dp
+        pageSpacing = 32.dp,
+        pageSize = object : PageSize {
+            override fun Density.calculateMainAxisPageSize(
+                availableSpace: Int,
+                pageSpacing: Int,
+            ): Int {
+
+                return (availableSpace * 0.75f).toInt()
+            }
+        },
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(end = 32.dp)
     ) { currentPage ->
         val currentPageOffset =
             (pagerState.currentPage + pagerState.currentPageOffsetFraction - currentPage).coerceIn(
@@ -108,15 +119,15 @@ fun SharedTransitionScope.ShoeItemView(
 
     Box(
         modifier = Modifier
-            .width(290.dp)
+            .width(294.dp)
             .height(304.dp)
-
 
     ) {
 
         CurvedBezierComposable(modifier = Modifier
-            .width(226.dp)
+            .width(256.dp)
             .height(280.dp)
+            .align(Alignment.TopStart)
             .sharedElement(
                 sharedContentState = rememberSharedContentState(key = "backdrop/${shoeCarouselItem.name}"),
                 animatedVisibilityScope = animatedVisibilityScope,
@@ -188,7 +199,8 @@ fun SharedTransitionScope.ShoeItemView(
             modifier = Modifier
                 .width(widAndHeight.first)
                 .height(widAndHeight.second)
-                .align(Alignment.Center)
+                .align(Alignment.CenterEnd)
+                .offset(x = 50.dp)
                 .graphicsLayer {
                     rotationZ = shoeRotationZ
                     translationX = shoeTranslationX

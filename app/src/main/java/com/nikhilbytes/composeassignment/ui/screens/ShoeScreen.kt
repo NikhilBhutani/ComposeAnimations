@@ -31,14 +31,20 @@ fun SharedTransitionScope.ShoeScreen(
     sharedTransitionScope: SharedTransitionScope,
     onClick: (name: String, rotation: Float) -> Unit
 ) {
-    Scaffold(topBar = { AppBar() }) {padding ->
+    Scaffold(topBar = { AppBar() }) { padding ->
         Surface {
             Column(modifier = Modifier.padding(padding)) {
                 Title()
                 ShoeModelNameListComposable()
 
                 ShoeCarouselView(animatedVisibilityScope, onClick)
-
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = "243 OPTIONS",
+                    fontSize = 12.sp,
+                    color = Color(0xFF1F2732),
+                    fontWeight = FontWeight.Light
+                )
                 MoreShoeVerticalListComposable()
             }
         }
