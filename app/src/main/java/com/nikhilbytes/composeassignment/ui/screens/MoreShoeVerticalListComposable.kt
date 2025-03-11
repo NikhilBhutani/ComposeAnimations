@@ -130,15 +130,15 @@ fun MoreShoeItem(shoeCarouselItem: ShoeData) {
                     text = shoeCarouselItem.name,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF1F2732),
-                    fontSize = 14.sp,
-                    lineHeight = 12.sp
+                    fontSize = 16.sp,
+                    lineHeight = 18.sp
                 )
 
                 Text(
                     text = shoeCarouselItem.price,
                     fontWeight = FontWeight.ExtraLight,
                     color = Color(0xFF1F2732),
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
 
             }
