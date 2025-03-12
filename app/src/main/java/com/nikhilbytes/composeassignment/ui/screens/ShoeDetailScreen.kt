@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.animateBounds
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
@@ -25,6 +27,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -63,99 +66,101 @@ fun SharedTransitionScope.ShoeDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        val rotation = remember { Animatable(30f) }
 
+        ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .weight(1f, false)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(320.dp)
-            ) {
 
-                CurvedBezierComposable(modifier = Modifier.sharedElement(
-                    sharedContentState = rememberSharedContentState(key = "backdrop/${name}"),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                    boundsTransform = { _, _ ->
-                        tween(durationMillis = 800)
-                    }
-                ), color = shoe?.bgcolor ?: Color(0xFF4285F4))
+            Column(modifier = Modifier, verticalArrangement = Arrangement.Top) {
+                Box(
 
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    },
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.TopStart)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color.White
-                    )
-                }
-
-
-                IconButton(
-                    onClick = { },
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.TopEnd)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
-                        contentDescription = "Favorite",
-                        tint = Color.White
-                    )
-                }
-
-                val widAndHeight = if (shoe?.detailDrawable == R.drawable.red_shoe_bdrop) {
-                    Pair(260.dp, 180.dp)
-                } else {
-                    Pair(360.dp, 240.dp)
-                }
-
-
-//                val rotationBoundsTransform = remember {
-//                    BoundsTransform { initialBounds, targetBounds ->
-//
-//                    }
-//                }
-
-                Image(
-                    painter = painterResource(
-                        id = shoe?.detailDrawable ?: R.drawable.blue_shoe_bdrop
-                    ),
-                    contentDescription = "Shoe",
-                    modifier = Modifier
-                        .width(widAndHeight.first)
-                        .height(widAndHeight.second)
-                        .align(Alignment.Center)
-                        .sharedElement(
-                            sharedContentState = rememberSharedContentState(key = "shoe/${name}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { initialBounds, targetBounds ->
-                                keyframes {
-                                    durationMillis = 800
-                                    initialBounds at 0 using FastOutSlowInEasing
-                                    targetBounds at 800 using FastOutSlowInEasing
+                    CurvedBezierComposable(
+                        modifier = Modifier
+                            .height(564.dp)
+                            .width(564.dp)
+                            .absoluteOffset(x = 45.dp, y = (-60).dp)
+                            .sharedElement(
+                                sharedContentState = rememberSharedContentState(key = "backdrop/${name}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 700)
                                 }
-                            }
+                            ),
+                        color = shoe?.bgcolor ?: Color(0xFF4285F4),
+                    )
+
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.TopStart)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+
+
+                    IconButton(
+                        onClick = { },
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = Color.White
+                        )
+                    }
+
+                    val widAndHeight = if (shoe?.detailDrawable == R.drawable.red_shoe_bdrop) {
+                        Pair(260.dp, 180.dp)
+                    } else {
+                        Pair(360.dp, 240.dp)
+                    }
+
+                    Image(
+                        painter = painterResource(
+                            id = shoe?.detailDrawable ?: R.drawable.blue_shoe_bdrop
                         ),
-                    contentScale = ContentScale.Fit
-                )
+                        contentDescription = "Shoe",
+                        modifier = Modifier
+                            .padding(top = 40.dp)
+                            .width(356.dp)
+                            .height(242.dp)
+                            .animateContentSize()
+                            .align(Alignment.TopCenter)
+                            .sharedElement(
+                                sharedContentState = rememberSharedContentState(key = "shoe/${name}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { initialBounds, targetBounds ->
+                                    keyframes {
+                                        durationMillis = 700
+                                        initialBounds at 0 using FastOutSlowInEasing
+                                        targetBounds at 700 using FastOutSlowInEasing
+                                    }
+                                }
+                            ),
+                    )
+                }
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .offset(y = (-300).dp)
+                    .align(Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.Top
             ) {
                 Row(
                     modifier = Modifier

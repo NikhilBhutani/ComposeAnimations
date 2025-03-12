@@ -132,7 +132,7 @@ fun SharedTransitionScope.ShoeItemView(
                 sharedContentState = rememberSharedContentState(key = "backdrop/${shoeCarouselItem.name}"),
                 animatedVisibilityScope = animatedVisibilityScope,
                 boundsTransform = { _, _ ->
-                    tween(durationMillis = 800)
+                    tween(durationMillis = 700)
                 }
             ), color = shoeCarouselItem.bgcolor, isRounded = true)
 
@@ -213,9 +213,9 @@ fun SharedTransitionScope.ShoeItemView(
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { initialBounds, targetBounds ->
                         keyframes {
-                            durationMillis = 800
+                            durationMillis = 700
                             initialBounds at 0 using FastOutSlowInEasing
-                            targetBounds at 800 using FastOutSlowInEasing
+                            targetBounds at 700 using FastOutSlowInEasing
                         }
                     },
                 ),
